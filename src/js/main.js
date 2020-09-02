@@ -7,6 +7,14 @@ const screenWidth = window.innerWidth;
 const width = screenWidth > 1200 ? 1200 : screenWidth;
 const height = 800;
 
+// Colors
+const red = '#F94144';
+const orange = '#F3722C';
+const yellow = '#F9C74F';
+const pistachio = '#90BE6D';
+const teal = '#43AA8B';
+const blue = '#577590';
+
 
 
 /*************************************/
@@ -38,6 +46,16 @@ const createVisualization = (nodes, links) => {
     .attr('width', width)
     .attr('height', height);
 
+  // Append links
+  const link = viz.append('g')
+    .attr('class', 'links-group')
+    .attr('stroke', '#999')
+    .attr('stroke-opacity', 0.2)
+    .attr('stroke-width', 1)
+    .selectAll('line')
+      .data(links)
+      .join('line');
+
   // Append nodes
   const node = viz.append('g')
     .attr('class', 'nodes-group')
@@ -47,29 +65,21 @@ const createVisualization = (nodes, links) => {
       .data(nodes)
       .join('circle')
         .attr('r', 5)
-        .attr('fill', '#000');
-
-  // Append links
-  const link = viz.append('g')
-    .attr('class', 'links-group')
-    .attr('stroke', '#999')
-    .attr('stroke-opacity', 0.6)
-    .attr('stroke-width', 2)
-    .selectAll('line')
-      .data(links)
-      .join('line');
+        .attr('fill', d => {
+          return getColor(d.type);
+        });
 
 
   // Call the simulation
   simulation.on('tick', () => {
-    node
-      .attr('cx', d => d.x)
-      .attr('cy', d => d.y);
-
     link
       .attr('x1', d => d.source.x)
       .attr('y1', d => d.source.y)
       .attr('x2', d => d.target.x)
       .attr('y2', d => d.target.y);
+
+    node
+      .attr('cx', d => d.x)
+      .attr('cy', d => d.y);
   });
 };
