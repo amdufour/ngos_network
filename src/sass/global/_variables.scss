@@ -1,14 +1,16 @@
 // Grid
 $xl: 1600px;
-$lg: 990px;
+$lg: 1200px;
 $md: 768px;
 $sm: 576px;
 $gutter: 30px;
-$container: $xl;
+$container: $lg;
 
 // Colors
-$text: #242424;
-$textPale: #333333;
+$white: #FFF;
+$grey: #9A9CA0;
+$greyDark: #616366;
+$greyPale: #C2C3C7;
 
-$blue: #03658C;
-$pink: #F26D78;
+$bg: $white;
+$text: #000;
