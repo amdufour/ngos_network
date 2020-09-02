@@ -1,0 +1,29 @@
+/**
+ * Base Styles
+ */
+
+ html {
+	font-size: 62.5%;
+  -webkit-font-smoothing: antialiased;
+  box-sizing: border-box;
+  overflow-x: hidden;
+}
+*, ::after, ::before {
+  box-sizing: inherit;
+}
+body{
+  margin: 0;
+  font-family: $fontPrimary;
+  font-size: $fontSize;
+  line-height: 1.2;
+  font-weight: 400;
+  color: $text;
+  fill: $text;
+}
+
+input,
+textarea,
+select,
+button {
+	font: inherit;
+}
