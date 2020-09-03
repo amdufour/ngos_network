@@ -4,8 +4,9 @@
 
 // Screen size's related variables
 const screenWidth = window.innerWidth;
+const screenHeight = window.innerHeight;
 const width = screenWidth > 1200 ? 1200 : screenWidth;
-const height = 800;
+const height = screenHeight - 100;
 
 // Colors
 const red = '#F94144';
@@ -45,6 +46,7 @@ const createVisualization = (nodes, links) => {
   // Simulation function
   // Used to position the nodes on the screen
   const simulation = d3.forceSimulation(nodes)
+    // Pushes linkes nodes together or apart
     .force('link', d3.forceLink(links)
       .id(d => d.id))
     // Center the overall network
@@ -62,7 +64,7 @@ const createVisualization = (nodes, links) => {
       .strength(1))
     .force('collide', d3.forceCollide(d => {
       const radius = d.estimated_people_impacted == 'nan' ? 5 : nodeRadiusScale(d.estimated_people_impacted);
-      return radius + 20;
+      return radius + 15;
     })
       .strength(0.1));
 
@@ -109,7 +111,13 @@ const createVisualization = (nodes, links) => {
       .attr('y2', d => d.target.y);
 
     node
-      .attr("cx", function(d) { return d.x = Math.max(radiusMax, Math.min(width - radiusMax, d.x)); })
-      .attr("cy", function(d) { return d.y = Math.max(radiusMax, Math.min(height - radiusMax, d.y)); });
+      .attr('cx', d => {
+        // Bound the visualization to the horizontal limits of the svg container
+        return d.x = Math.max(radiusMax, Math.min(width - radiusMax, d.x));
+      })
+      .attr('cy', d => {
+        // Bound the visualization to the vertical limits of the svg container
+        return d.y = Math.max(radiusMax, Math.min(height - radiusMax, d.y)); 
+      });
   });
 };
