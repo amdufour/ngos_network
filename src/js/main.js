@@ -79,11 +79,17 @@ const createVisualization = (nodes, links) => {
   const link = viz.append('g')
     .attr('class', 'links-group')
     .attr('stroke', '#999')
-    .attr('stroke-opacity', 0.2)
-    .attr('stroke-width', 1)
     .selectAll('line')
       .data(links)
-      .join('line');
+      .join('line')
+        .attr('stroke-opacity', d => {
+          const strokeOpacity = d.strength === 1 ? 0.1 : 1;
+          return strokeOpacity;
+        })
+        .attr('stroke-width', d => {
+          const strokeWidth = d.strength === 1 ? 1 : 2;
+          return strokeWidth;
+        });
 
 
   // Append nodes
