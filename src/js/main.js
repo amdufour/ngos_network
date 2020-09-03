@@ -15,6 +15,9 @@ const pistachio = '#90BE6D';
 const teal = '#43AA8B';
 const blue = '#577590';
 
+// Data related variables
+const groups = ['communications', 'civics', 'community', 'economy', 'technology', 'education'];
+
 
 
 /*************************************/
@@ -32,12 +35,34 @@ d3.json('../data/network.min.json').then(data => {
 
 const createVisualization = (nodes, links) => {
 
+  // Scales
+  const nodeRadiusScale = d3.scaleLinear()
+    .domain(d3.extent(nodes, d => d.estimated_people_impacted))
+    .range([5, 60]);
+
   // Simulation function
   // Used to position the nodes on the screen
   const simulation = d3.forceSimulation(nodes)
-    .force('link', d3.forceLink(links).id(d => d.id))
-    .force('charge', d3.forceManyBody())
-    .force('center', d3.forceCenter(width/2, height/2));
+    .force('link', d3.forceLink(links)
+      .id(d => d.id))
+    // Center the overall network
+    .force('center', d3.forceCenter(width/2, height/2))
+    // Give starting position to each node
+    .force('x', d3.forceX()
+      .x(d => {
+        return getPosition(d.type)[0];
+      })
+      .strength(1))
+    .force('y', d3.forceY()
+      .y(d => {
+        return getPosition(d.type)[1];
+      })
+      .strength(1))
+    .force('collide', d3.forceCollide(d => {
+      const radius = d.estimated_people_impacted == 'nan' ? 5 : nodeRadiusScale(d.estimated_people_impacted);
+      return radius + 20;
+    })
+      .strength(0.1));
 
   // Append svg
   const viz = d3.select('#visualization')
@@ -56,6 +81,7 @@ const createVisualization = (nodes, links) => {
       .data(links)
       .join('line');
 
+
   // Append nodes
   const node = viz.append('g')
     .attr('class', 'nodes-group')
@@ -64,7 +90,9 @@ const createVisualization = (nodes, links) => {
     .selectAll('circle')
       .data(nodes)
       .join('circle')
-        .attr('r', 5)
+        .attr('r', d => {
+          return d.estimated_people_impacted == 'nan' ? 5 : nodeRadiusScale(d.estimated_people_impacted);
+        })
         .attr('fill', d => {
           return getColor(d.type);
         });
