@@ -17,6 +17,8 @@ const blue = '#577590';
 
 // Data related variables
 const groups = ['communications', 'civics', 'community', 'economy', 'technology', 'education'];
+const radiusMin = 5;  // Minimum radius of a node
+const radiusMax = 60; // Maximum radius of a node
 
 
 
@@ -38,7 +40,7 @@ const createVisualization = (nodes, links) => {
   // Scales
   const nodeRadiusScale = d3.scaleLinear()
     .domain(d3.extent(nodes, d => d.estimated_people_impacted))
-    .range([5, 60]);
+    .range([radiusMin, radiusMax]);
 
   // Simulation function
   // Used to position the nodes on the screen
@@ -107,7 +109,7 @@ const createVisualization = (nodes, links) => {
       .attr('y2', d => d.target.y);
 
     node
-      .attr('cx', d => d.x)
-      .attr('cy', d => d.y);
+      .attr("cx", function(d) { return d.x = Math.max(radiusMax, Math.min(width - radiusMax, d.x)); })
+      .attr("cy", function(d) { return d.y = Math.max(radiusMax, Math.min(height - radiusMax, d.y)); });
   });
 };

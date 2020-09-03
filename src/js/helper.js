@@ -45,7 +45,7 @@ const getPosition = (type) => {
   const group = getGroup(type);
   const index = groups.findIndex(item => item === group);
   const angle = 360 / (groups.length * 2);
-  const r = width / 4; // Distance from the center of the visualization
+  const r = width / 3; // Distance from the center of the visualization
 
   const posX = (width / 2) + (r * Math.sin(degreeToRadian((2*index + 1) * angle)));
   const posY = (width / 2) + (r * Math.cos(degreeToRadian((2*index + 1) * angle)));
