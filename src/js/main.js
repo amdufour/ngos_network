@@ -9,12 +9,14 @@ const width = screenWidth > 1200 ? 1200 : screenWidth;
 const height = screenHeight - 100;
 
 // Colors
-const red = '#F94144';
-const orange = '#F3722C';
-const yellow = '#F9C74F';
-const pistachio = '#90BE6D';
-const teal = '#43AA8B';
-const blue = '#577590';
+const colors = [
+  { id: 'red', hex: '#F94144' },
+  { id: 'orange', hex: '#F3722C' },
+  { id: 'yellow', hex: '#F9C74F' },
+  { id: 'pistachio', hex: '#90BE6D' },
+  { id: 'teal', hex: '#43AA8B' },
+  { id: 'blue', hex: '#577590' }
+];
 
 // Data related variables
 const groups = ['communications', 'civics', 'community', 'economy', 'technology', 'education'];
@@ -75,15 +77,36 @@ const createVisualization = (nodes, links) => {
     .attr('width', width)
     .attr('height', height);
 
+  // Append defs for gradients
+  const defs = viz.append('defs');
+  colors.forEach(colorStart => {
+    colors.forEach(colorEnd => {
+      if (colorStart !== colorEnd) {
+        const gradient = defs.append('linearGradient')
+          .attr('id', `${colorStart.id}-to-${colorEnd.id}`)
+          .attr('x1', '0%')
+          .attr('y1', '50%')
+          .attr('y2', '50%');
+        gradient.append('stop')
+          .attr('offset', '0%')
+          .attr('stop-color', colorStart.hex);
+        gradient.append('stop')
+          .attr('offset', '100%')
+          .attr('stop-color', colorEnd.hex);
+      }
+    });
+  });
+
   // Append links
   const link = viz.append('g')
     .attr('class', 'links-group')
-    .attr('stroke', '#999')
-    .selectAll('line')
+    .attr('fill', 'none')
+    .selectAll('path')
       .data(links)
-      .join('line')
+      .join('path')
+        .attr('id', d => d.source_to_target)
         .attr('stroke-opacity', d => {
-          const strokeOpacity = d.strength === 1 ? 0.1 : 1;
+          const strokeOpacity = d.strength === 1 ? 0.1 : 0.5;
           return strokeOpacity;
         })
         .attr('stroke-width', d => {
@@ -100,21 +123,26 @@ const createVisualization = (nodes, links) => {
     .selectAll('circle')
       .data(nodes)
       .join('circle')
+        .attr('id', d => `node-${d.id}`)
         .attr('r', d => {
           return d.estimated_people_impacted == 'nan' ? 5 : nodeRadiusScale(d.estimated_people_impacted);
         })
         .attr('fill', d => {
-          return getColor(d.type);
+          return getColor(d.type).hex;
         });
 
 
   // Call the simulation
   simulation.on('tick', () => {
     link
-      .attr('x1', d => d.source.x)
-      .attr('y1', d => d.source.y)
-      .attr('x2', d => d.target.x)
-      .attr('y2', d => d.target.y);
+      .attr('d', d => {
+        return generatePath(d.source.x, d.source.y, d.target.x, d.target.y);
+      })
+      .attr('stroke', d => {
+        return d.source.type === d.target.type 
+                ? getColor(d.source.type).hex
+                : `url(#${getGradientColors(d.source.type, d.target.type)})`;
+      });
 
     node
       .attr('cx', d => {

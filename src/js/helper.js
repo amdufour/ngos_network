@@ -58,18 +58,41 @@ const getColor = (type) => {
   const group = getGroup(type);
   switch (group) {
     case 'communications':
-      return red;
+      return colors.find(color => color.id === 'red');
     case 'civics':
-      return orange;
+      return colors.find(color => color.id === 'orange');
     case 'community':
-      return yellow;
+      return colors.find(color => color.id === 'yellow');
     case 'economy':
-      return pistachio;
+      return colors.find(color => color.id === 'pistachio');
     case 'technology':
-      return teal;
+      return colors.find(color => color.id === 'teal');
     case 'education':
-      return blue;
+      return colors.find(color => color.id === 'blue');
   }
+};
+
+// Get colors for link gradient
+const getGradientColors = (source, target) => {
+  const sourceColor = getColor(source).id;
+  const targetColor = getColor(target).id;
+  return `${sourceColor}-to-${targetColor}`;
+};
+
+// Generate path between 2 nodes
+const generatePath = (sourceX, sourceY, targetX, targetY) => {
+  const midpointX = (sourceX + targetX) / 2;
+  const midpointY = (sourceY + targetY) / 2;
+  const dx = targetX - sourceX;
+  const dy = targetY - sourceY;
+
+  const normalize = Math.sqrt((dx * dx) + (dy * dy));
+  const offset = normalize < 100 ? 10 : 50;
+
+  const offsetX = midpointX + offset * (dy / normalize);
+  const offsetY = midpointY - offset * (dx / normalize);
+
+  return `M ${sourceX} ${sourceY} Q ${offsetX} ${offsetY} ${targetX} ${targetY}`;
 };
 
 // Convert degrees to radians
