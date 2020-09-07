@@ -45,7 +45,7 @@ const getPosition = (type) => {
   const group = getGroup(type);
   const index = groups.findIndex(item => item === group);
   const angle = 360 / (groups.length * 2);
-  const r = width / 3; // Distance from the center of the visualization
+  const r = width / 3.5; // Distance from the center of the visualization
 
   const posX = (width / 2) + (r * Math.sin(degreeToRadian((2*index + 1) * angle)));
   const posY = (width / 2) + (r * Math.cos(degreeToRadian((2*index + 1) * angle)));
@@ -60,15 +60,15 @@ const getColor = (type) => {
     case 'communications':
       return colors.find(color => color.id === 'red');
     case 'civics':
-      return colors.find(color => color.id === 'orange');
-    case 'community':
       return colors.find(color => color.id === 'yellow');
+    case 'community':
+      return colors.find(color => color.id === 'blue');
     case 'economy':
-      return colors.find(color => color.id === 'pistachio');
+      return colors.find(color => color.id === 'orange');
     case 'technology':
       return colors.find(color => color.id === 'teal');
     case 'education':
-      return colors.find(color => color.id === 'blue');
+      return colors.find(color => color.id === 'pistachio');
   }
 };
 
