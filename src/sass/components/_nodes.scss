@@ -1,0 +1,10 @@
+.node {
+  cursor: pointer;
+  opacity: 1;
+  transition-property: opacity;
+  @include easeSineIn;
+  &.faded {
+    opacity: .3;
+    @include easeSineOut;
+  }
+}

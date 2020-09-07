@@ -29,8 +29,12 @@ const radiusMax = 60; // Maximum radius of a node
 /* Load data                         */
 /*************************************/
 
+let nodes = [];
+let links = [];
 d3.json('../data/network.min.json').then(data => {
-  createVisualization(data.nodes, data.links);
+  nodes = data.nodes;
+  links = data.links;
+  createVisualization();
 });
 
 
@@ -38,7 +42,7 @@ d3.json('../data/network.min.json').then(data => {
 /* Create and append visualization   */
 /*************************************/
 
-const createVisualization = (nodes, links) => {
+const createVisualization = () => {
 
   // Scales
   const nodeRadiusScale = d3.scaleLinear()
@@ -110,6 +114,12 @@ const createVisualization = (nodes, links) => {
       .data(links)
       .join('path')
         .attr('id', d => d.source_to_target)
+        .attr('class', 'link')
+        .attr('stroke', d => {
+          return getGroup(d.source.type) === getGroup(d.target.type) 
+            ? getColor(d.source.type).hex
+            : `url(#${getGradientColors(d.source.type, d.target.type)})`;
+        })
         .attr('stroke-opacity', d => {
           const strokeOpacity = d.strength === 1 ? 0.1 : 0.5;
           return strokeOpacity;
@@ -127,7 +137,14 @@ const createVisualization = (nodes, links) => {
       .data(nodes)
       .join('g')
         .attr('id', d => `node-${d.id}`)
-        .attr('class', d => `node node-${d.scale}`);
+        .attr('class', d => `node node-${d.scale}`)
+        .on('mouseover', d => {
+          d3.event.stopPropagation();
+          fadeElements(d.id);
+        })
+        .on('mouseout', d => {
+          unfadeElements();
+        });
 
   // Append nodes with "National" scale
   const nodesNationalGroup = d3.selectAll('.node-National')
@@ -209,11 +226,6 @@ const createVisualization = (nodes, links) => {
     link
       .attr('d', d => {
         return generatePath(d.source.x, d.source.y, d.target.x, d.target.y);
-      })
-      .attr('stroke', d => {
-        return d.source.type === d.target.type 
-                ? getColor(d.source.type).hex
-                : `url(#${getGradientColors(d.source.type, d.target.type)})`;
       });
 
     nodesNationalOuter

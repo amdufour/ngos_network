@@ -1,0 +1,12 @@
+.link {
+  transition-property: stroke-opacity;
+  @include easeSineIn;
+  &.highlighted {
+    stroke-opacity: 1 !important;
+    @include easeSineOut;
+  }
+  &.hidden {
+    stroke-opacity: 0 !important;
+    @include easeSineOut;
+  }
+}
