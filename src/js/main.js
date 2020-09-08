@@ -17,6 +17,7 @@ const colors = [
   { id: 'teal', hex: '#43AA8B' },
   { id: 'blue', hex: '#577590' }
 ];
+const grey = '#727A87';
 
 // Data related variables
 const groups = ['communications', 'civics', 'community', 'economy', 'technology', 'education'];
@@ -89,8 +90,10 @@ const createVisualization = () => {
     .attr('width', width)
     .attr('height', height);
 
-  // Append defs for gradients
+  // Append defs for gradients and blur
   const defs = viz.append('defs');
+
+  // Append gradients
   colors.forEach(colorStart => {
     colors.forEach(colorEnd => {
       if (colorStart !== colorEnd) {
@@ -108,6 +111,20 @@ const createVisualization = () => {
       }
     });
   });
+
+  // Create blur filter
+  let filters = defs.append('filter')
+    .attr('id', 'glow');
+  // Apply blur
+  filters.append('feGaussianBlur')
+    .attr('stdDeviation', '3.5')
+    .attr('result', 'coloredBlur');
+  // Place the original (sharp) element on top of the blured one
+  let feMerge = filters.append('feMerge');
+  feMerge.append('feMergeNode')
+    .attr('in', 'coloredBlur');
+  feMerge.append('feMergeNode')
+    .attr('in', 'SourceGraphic');
 
   // Append links
   const link = viz.append('g')
@@ -142,19 +159,16 @@ const createVisualization = () => {
         .attr('id', d => `node-${d.id}`)
         .attr('class', d => `node node-${d.scale}`)
         .on('mouseenter', d => {
-          if (!isActiveElement) {
-            d3.event.stopPropagation();
-            highlightElements(d.id);
-          }
+          d3.event.stopPropagation();
+          isActiveElement ? highlightNode(d.id) : highlightElements(d.id, false);
         })
         .on('mouseleave', d => {
-          if (!isActiveElement) {
-            unhighlightElements();
-          }
+          isActiveElement ? unHighlightNode(d.id) : unhighlightElements();
         })
         .on('click', d => {
           isActiveElement = true;
-          highlightElements(d.id);
+          highlightElements(d.id, true);
+          addBackgroundCircle(d.id, getRadius(d.estimated_people_impacted));
         });
 
   // Append nodes with "National" scale
