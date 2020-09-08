@@ -4,7 +4,7 @@
   transition-property: opacity;
   @include easeSineIn;
   &.faded {
-    opacity: .3;
+    opacity: .2;
     @include easeSineOut;
   }
 }

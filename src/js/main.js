@@ -23,6 +23,9 @@ const groups = ['communications', 'civics', 'community', 'economy', 'technology'
 const radiusMin = 8;  // Minimum radius of a node
 const radiusMax = 60; // Maximum radius of a node
 
+// State variable
+let isActiveElement = false;
+
 
 
 /*************************************/
@@ -138,12 +141,20 @@ const createVisualization = () => {
       .join('g')
         .attr('id', d => `node-${d.id}`)
         .attr('class', d => `node node-${d.scale}`)
-        .on('mouseover', d => {
-          d3.event.stopPropagation();
-          fadeElements(d.id);
+        .on('mouseenter', d => {
+          if (!isActiveElement) {
+            d3.event.stopPropagation();
+            highlightElements(d.id);
+          }
         })
-        .on('mouseout', d => {
-          unfadeElements();
+        .on('mouseleave', d => {
+          if (!isActiveElement) {
+            unhighlightElements();
+          }
+        })
+        .on('click', d => {
+          isActiveElement = true;
+          highlightElements(d.id);
         });
 
   // Append nodes with "National" scale
@@ -254,6 +265,6 @@ const createVisualization = () => {
       .attr('cy', d => d.y = Math.max(radiusMax, Math.min(height - radiusMax, d.y)));
 
     nodesGlobalGroup
-      .attr('transform', d => `translate(${d.x = Math.max(radiusMax, Math.min(width - radiusMax, d.x))},${d.y = Math.max(radiusMax, Math.min(height - radiusMax, d.y))})`)
+      .attr('transform', d => `translate(${d.x = Math.max(radiusMax, Math.min(width - radiusMax, d.x))},${d.y = Math.max(radiusMax, Math.min(height - radiusMax, d.y))})`);
   });
 };

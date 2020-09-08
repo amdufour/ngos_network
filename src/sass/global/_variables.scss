@@ -17,10 +17,10 @@ $text: #000;
 
 // Transitions
 @mixin easeSineOut {
-  transition-duration: 300ms;
+  transition-duration: 150ms;
   transition-timing-function: cubic-bezier(0.61, 1, 0.88, 1);
 }
 @mixin easeSineIn {
-  transition-duration: 150ms;
+  transition-duration: 100ms;
   transition-timing-function: cubic-bezier(0.12, 0, 0.39, 0);
 }

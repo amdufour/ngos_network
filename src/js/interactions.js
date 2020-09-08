@@ -1,7 +1,6 @@
-// Fade all elements
-const fadeElements = (id) => {
+// Highlight related elements and fade others
+const highlightElements = (id) => {
   let relatedElements = getRelatedElements(id);
-  console.log(id, relatedElements);
   
   d3.selectAll('.node')
     .classed('faded', d => {
@@ -19,8 +18,8 @@ const fadeElements = (id) => {
     });
 };
 
-// Bring back elements to front
-const unfadeElements = () => {
+// Bring back all elements to front
+const unhighlightElements = () => {
   d3.selectAll('.node')
     .classed('faded', false);
   d3.selectAll('.link')
@@ -45,3 +44,12 @@ const getRelatedElements = (id) => {
   });
   return relatedElements;
 };
+
+// Unhighlight all elements when user clicks elsewhere on the page
+document.addEventListener('click', (e) => {
+  const closestGroup = e.target.closest('g');
+  if (isActiveElement && (closestGroup === null || !closestGroup.classList.contains('node'))) {
+    isActiveElement = false;
+    unhighlightElements();
+  }
+});
