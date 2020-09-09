@@ -3,7 +3,7 @@
   width: 100%;
   margin-left: 40px;
   background: $white;
-  opacity: 1;
+  opacity: 0;
   transition-property: opacity;
   @include easeSineOut;
   &.visible {

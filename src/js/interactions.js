@@ -4,6 +4,10 @@
 
 const highlightElements = (id, selected) => {
   let relatedElements = getRelatedElements(id);
+
+  if (selected) {
+    highlightedNodes = relatedElements.relatedNodes;
+  }
   
   d3.selectAll('.node')
     .classed('faded', d => {
@@ -154,6 +158,7 @@ document.addEventListener('click', (e) => {
   if (isActiveElement && (closestGroup === null || !closestGroup.classList.contains('node'))) {
     isActiveElement = false;
     d3.select('.background-circle').remove();
+    highlightedNodes = [];
     unhighlightElements();
   }
 });

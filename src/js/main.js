@@ -27,6 +27,7 @@ const radiusMax = 60; // Maximum radius of a node
 
 // State variable
 let isActiveElement = false;
+let highlightedNodes = [];
 
 
 
@@ -181,7 +182,9 @@ const createVisualization = () => {
           showInfo(d);
         })
         .on('mouseleave', d => {
-          isActiveElement ? unHighlightNode(d.id) : unhighlightElements();
+          isActiveElement
+            ? !highlightedNodes.includes(d.id) ? unHighlightNode(d.id) : null
+            : unhighlightElements();
           hideInfo();
         })
         .on('click', d => {
