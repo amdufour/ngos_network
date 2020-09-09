@@ -49,6 +49,8 @@ const unhighlightElements = () => {
   d3.selectAll('.link')
     .classed('highlighted', false)
     .classed('hidden', false);
+
+  d3.select('#action').classed('visible', false);
 };
 
 
