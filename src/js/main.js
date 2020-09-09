@@ -5,7 +5,7 @@
 // Screen size's related variables
 const screenWidth = window.innerWidth;
 const screenHeight = window.innerHeight;
-const width = screenWidth > 1200 ? 1200 : screenWidth;
+const width = screenWidth > 1200 ? (1200 / 12 * 9) : (screenWidth - 30);
 const height = screenHeight - 100;
 
 // Colors
