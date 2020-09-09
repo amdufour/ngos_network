@@ -8,33 +8,80 @@
 	<main class="organizations-network-page">
 		<div class="container">
 			<h1>Organizations helping maintain our democracy</h1>
-			<div id="visualization"></div>
-
-			<div id="info">
-				<div class="info-container">
-					<div class="box-header">
-						<div class="type"></div>
-						<div class="name">
-							<h3></h3>
-							<div class="name-background"></div>
-						</div>
-						<div class="tags"></div>
-					</div>
-					<div class="box-body">
-						<div class="mission-container">
-							<span class="quotation quotation-left">&ldquo;</span>
-							<span class="mission-statement"></span>
-							<span class="quotation quotation-right">&#8221;</span>
-						</div>
-						<ul class="facts">
-							<li><span class="label">Scale: </span><span class="fact fact-scale"></span></li>
-							<li><span class="label">Estimated people impacted: </span><span class="fact fact-impact"></span><sup>*</sup></li>
-							<li><a href="/" target="_blank" class="fact fact-url"></a></li>
-						</ul>
-						<div class="notes"><sup>*</sup>Between 2015 and 2017</div>
-					</div>
+			<div class="row">
+				<div class="col-12 col-md-9">
+					<p>Polarization in Western Democracies seem is a major concern and lead to new and existing nonprofit orgnizations (NGOs) to focus on anti-polarization. These NGOs promote our interdependence as humans though education, community-based interventions, political life and technology, to name a few. Some focus their actions in a specific city, while others reached people all around the world. But many of them share common fields of action, making them deeply interconnected.</p>
 				</div>
 			</div>
+
+			<section class="legend-section">
+				<h2>How to read this visualization</h2>
+				<div class="row">
+					<div class="col-12 col-md-4">
+						<h3>Main focus of an organization</h3>
+						<div class="legend legend-main"></div>
+					</div>
+					<div class="col-12 col-md-4">
+						<h3>Scale at which an organization operates</h3>
+						<div class="legend legend-main"></div>
+					</div>
+					<div class="col-12 col-md-4">
+						<h3>Estimated people reached by an organization</h3>
+						<div class="legend legend-main"></div>
+					</div>
+				</div>
+				<div class="row">
+					<div class="col-12">
+						<h3>How the organizations relate to each other</h3>
+					</div>
+					<div class="col-12 col-md-6"></div>
+					<div class="col-12 col-md-6"></div>
+				</div>
+			</section>
+			<section class="visualization-section">
+				<h2>The visualization</h2>
+				<div class="row align-items-center">
+					<div class="col-12 col-md-8">
+						<div id="visualization"></div>
+					</div>
+					<div class="col-12 col-md-4">
+						<div id="info">
+							<div class="box-header">
+								<div class="type"></div>
+								<div class="name">
+									<h3></h3>
+									<div class="name-background"></div>
+								</div>
+								<div class="tags"></div>
+							</div>
+							<div class="box-body">
+								<div class="mission-container">
+									<span class="quotation quotation-left">&ldquo;</span>
+									<span class="mission-statement"></span>
+									<span class="quotation quotation-right">&#8221;</span>
+								</div>
+								<ul class="facts">
+									<li><span class="label">Scale: </span><span class="fact fact-scale"></span></li>
+									<li><span class="label">Estimated people impacted: </span><span class="fact fact-impact"></span><sup>*</sup></li>
+									<li><a href="/" target="_blank" class="fact fact-url"></a></li>
+								</ul>
+								<div class="notes"><sup>*</sup>Between 2015 and 2017</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</section>
+			<section class="notes-section">
+				<h2>Notes & References</h2>
+				<div class="row">
+					<div class="col-12 col-md-9">
+						<p>This project originates from the desire to visualize how the work of nonprofit organizations (NGOs) is deeply interweened and conjugates to have even more impact on our world. Open source datasets on the subject don’t seem to exist at the moment of creation, but I found a great dataset grouping NGOs focusing on reducing polarization, a topic very dear to my hearth.</p>
+						<p>This dataset is by no mean complete and focus mainly on NGOs operating from the US. But still, exploring how much they are interconnected is facinating to me.</p>
+						<p>The original dataset was collected manually in 2018 by Carl V. Lewis and can be found on data.world/carlvlewis/interdependence-ngos-by-funding-reach
+							To create this visualization, missing information has been added regarding the mission and the scale of some of the organizations (LINK TO UPDATED SET)</p>
+					</div>
+				</div>
+			</section>
 		</div>
 	</main>
 

@@ -1,20 +1,14 @@
 // Info box
 #info {
-  position: absolute;
-  z-index: 100;
-  left: -9000rem;
-  top: -9000rem;
   width: 100%;
-  max-width: 500px;
-  opacity: 0;
-  .info-container {
-    position: absolute;
-    bottom: 0;
-    left: -50%;
-    padding: 30px 25px;
-    background: rgba($white, .9);
-    border-radius: $radius;
-    box-shadow: 1px 2px 5px 0px rgba($grey,0.6);
+  margin-left: 40px;
+  background: $white;
+  opacity: 1;
+  transition-property: opacity;
+  @include easeSineOut;
+  &.visible {
+    opacity: 1;
+    @include easeSineIn;
   }
 
   // Header
@@ -22,6 +16,7 @@
     margin-bottom: 20px;
   }
   .type {
+    font-weight: 500;
     text-transform: capitalize;
   }
   .name {
@@ -33,6 +28,7 @@
       position: relative;
       z-index: 10;
       margin: 0 0 3px;
+      font-family: $fontSecondary;
       font-size: 2.2rem;
       font-weight: 700;
     }
@@ -55,7 +51,8 @@
   .mission-container {
     padding-left: 13px;
     border-left: 2px solid $text;
-    font-size: 1.6rem;
+    font-size: 1.5rem;
+    text-transform: capitalize;
     .quotation {
       font-family: $fontSecondary;
     }
@@ -68,15 +65,20 @@
     padding-left: 0;
     list-style: none;
     li {
-      margin: 4px 0;
+      margin: 10px 0;
     }
     sup {
       margin-left: 1px;
     }
   }
   .fact-url {
-    color: $text;
-    text-decoration: none;
+    border-bottom: 2px solid;
+    &.link-red { border-bottom-color: $red; }
+    &.link-orange { border-bottom-color: $orange; }
+    &.link-yellow { border-bottom-color: $yellow; }
+    &.link-pistachio { border-bottom-color: $pistachio; }
+    &.link-teal { border-bottom-color: $teal; }
+    &.link-blue { border-bottom-color: $blue; }
   }
   .notes {
     font-size: 1.2rem;

@@ -5,7 +5,7 @@
 // Screen size's related variables
 const screenWidth = window.innerWidth;
 const screenHeight = window.innerHeight;
-const width = screenWidth > 1200 ? (1200 / 12 * 9) : (screenWidth - 30);
+const width = screenWidth > 1200 ? (1200 / 12 * 8) : (screenWidth - 30);
 const height = screenHeight - 100;
 
 // Colors
@@ -207,12 +207,15 @@ const createVisualization = () => {
 
   // Append nodes with "Regional" scale
   const nodesRegional = d3.selectAll('.node-Regional')
-    .append('circle')
-      .attr('r', d => getRadius(d.estimated_people_impacted))
-      .attr('fill', white)
-      .attr('stroke', d => getColor(d.type).hex)
-      .attr('stroke-width', d => getRadius(d.estimated_people_impacted))
-      .attr('stroke-opacity', 0.8);
+  const nodesRegionalOuter =  nodesRegional.append('circle')
+    .attr('r', d => getRadius(d.estimated_people_impacted))
+    .attr('fill', d => getColor(d.type).hex)
+    .attr('fill-opacity', 0.8)
+    .attr('stroke', 'none');
+  const nodesRegionalInner = nodesRegional.append('circle')
+    .attr('r', d => 0.3 * getRadius(d.estimated_people_impacted))
+    .attr('fill', white)
+    .attr('stroke', 'none');
 
   // Append nodes with "Continental" scale
   const nodesContinentalGroup = d3.selectAll('.node-Continental')
@@ -282,7 +285,10 @@ const createVisualization = () => {
       .attr('cx', d => d.x = Math.max(radiusMax, Math.min(width - radiusMax, d.x)))
       .attr('cy', d => d.y = Math.max(radiusMax, Math.min(height - radiusMax, d.y)));
 
-    nodesRegional
+    nodesRegionalOuter
+      .attr('cx', d => d.x = Math.max(radiusMax, Math.min(width - radiusMax, d.x)))
+      .attr('cy', d => d.y = Math.max(radiusMax, Math.min(height - radiusMax, d.y)));
+    nodesRegionalInner
       .attr('cx', d => d.x = Math.max(radiusMax, Math.min(width - radiusMax, d.x)))
       .attr('cy', d => d.y = Math.max(radiusMax, Math.min(height - radiusMax, d.y)));
 

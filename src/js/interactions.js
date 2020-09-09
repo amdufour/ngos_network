@@ -169,35 +169,32 @@ const showInfo = (d) => {
   const ypos = d3.event.pageY - 15;
 
   // Populate info
-  const nodeColor = getColor(d.type).hex;
+  const nodeColor = getColor(d.type);
   d3.select('#info .type').text(getGroup(d.type));
+  d3.select('#info .type').style('color', nodeColor.hex);
   d3.select('#info h3').text(d.label);
-  d3.select('#info .name-background').style('background', nodeColor);
+  d3.select('#info .name-background').style('background', nodeColor.hex);
   d3.select('#info .tags').text(d.tags.join(', '));
 
   d3.select('#info .mission-statement').text(d.description);
-  d3.select('#info .mission-container').style('border-left-color', nodeColor);
+  d3.select('#info .mission-container').style('border-left-color', nodeColor.hex);
   const scale = d.location_of_impact === ''
                   ? d.scale
                   : `${d.scale} (${d.location_of_impact})`;
   d3.select('#info .fact-scale').text(scale);
   d3.select('#info .fact-impact').text(d3.format(",")(d.estimated_people_impacted));
+  d3.select('#info .fact-url').attr('class', `fact fact-url link-${nodeColor.id}`);
   d3.select('#info .fact-url').attr('href', d.url);
-  d3.select('#info .fact-url').text(d.url);
-  d3.select('#info .fact-url').style('color::hover', nodeColor);
+  let url = d.url.replace('http://', '').replace('https://', '').replace('www.', '');
+  if (url.endsWith('/')) { url = url.slice(0, -1); }
+  d3.select('#info .fact-url').text(url);
 
   // Make the info box appear at the right location
   d3.select('#info')
-    .style('left', `${xpos}px`)
-    .style('top', `${ypos}px`)
-    .transition().duration(150)
-    .style('opacity', 1);
+    .classed('visible', true);
 };
 
 const hideInfo = () => {
   d3.select('#info')
-    .style('opacity', 0)
-    .transition().duration(100)
-    .style('left', '-9000rem')
-    .style('top', '-9000rem');
+  .classed('visible', false);
 }
