@@ -1,0 +1,87 @@
+// Info box
+#info {
+  position: absolute;
+  z-index: 100;
+  left: -9000rem;
+  top: -9000rem;
+  width: 100%;
+  max-width: 500px;
+  opacity: 0;
+  .info-container {
+    position: absolute;
+    bottom: 0;
+    left: -50%;
+    padding: 30px 25px;
+    background: rgba($white, .9);
+    border-radius: $radius;
+    box-shadow: 1px 2px 5px 0px rgba($grey,0.6);
+  }
+
+  // Header
+  .box-header {
+    margin-bottom: 20px;
+  }
+  .type {
+    text-transform: capitalize;
+  }
+  .name {
+    display: inline-block;
+    position: relative;
+    padding-right: 30px;
+    h3 {
+      display: inline-block;
+      position: relative;
+      z-index: 10;
+      margin: 0 0 3px;
+      font-size: 2.2rem;
+      font-weight: 700;
+    }
+    .name-background {
+      position: absolute;
+      z-index: 1;
+      left: 0;
+      bottom: 2px;
+      width: 100%;
+      height: 52%;
+      background: $grey;
+      opacity: 0.5;
+    }
+  }
+  .tags {
+    font-size: 1.2rem;
+  }
+
+  // Body
+  .mission-container {
+    padding-left: 13px;
+    border-left: 2px solid $text;
+    font-size: 1.6rem;
+    .quotation {
+      font-family: $fontSecondary;
+    }
+  }
+  sup {
+    font-size: 1rem;
+  }
+  .facts {
+    margin: 20px 0;
+    padding-left: 0;
+    list-style: none;
+    li {
+      margin: 4px 0;
+    }
+    sup {
+      margin-left: 1px;
+    }
+  }
+  .fact-url {
+    color: $text;
+    text-decoration: none;
+  }
+  .notes {
+    font-size: 1.2rem;
+    sup {
+      margin-right: 1px;
+    }
+  }
+}

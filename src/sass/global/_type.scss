@@ -1,4 +1,17 @@
-@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Lora:wght@700&display=swap&family=Hind+Madurai&display=swap');
 
-$fontPrimary: 'Montserrat', sans-serif;
+$fontPrimary: 'Hind Madurai', sans-serif;
+$fontSecondary: 'Lora', serif;
 $fontSize: 1.4rem;
+
+h1, h2, h3, h4, h5, h6 {
+  font-family: $fontSecondary;
+}
+h1 {
+  font-size: 3rem;
+  font-weight: 700;
+}
+
+sup {
+  vertical-align: top;
+}

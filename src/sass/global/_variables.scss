@@ -7,13 +7,16 @@ $gutter: 30px;
 $container: $lg;
 
 // Colors
-$white: #FFF;
-$grey: #9A9CA0;
-$greyDark: #616366;
+$white: #FBFDFE;
+$grey: #727A87;
+$greyDark: #5E6570;
 $greyPale: #C2C3C7;
 
 $bg: $white;
-$text: #000;
+$text: #1F2933;
+
+// Border-Radius
+$radius: 3px;
 
 // Transitions
 @mixin easeSineOut {

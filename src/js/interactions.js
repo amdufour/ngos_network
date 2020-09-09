@@ -1,4 +1,7 @@
-// Highlight related elements and fade others
+/**********************************************/
+/* Highlight related elements and fade others */
+/**********************************************/
+
 const highlightElements = (id, selected) => {
   let relatedElements = getRelatedElements(id);
   
@@ -20,7 +23,11 @@ const highlightElements = (id, selected) => {
     });
 };
 
-// Bring back all elements to front
+
+/**********************************************/
+/* Bring back all elements to front           */
+/**********************************************/
+
 const unhighlightElements = () => {
   d3.selectAll('.node')
     .classed('faded', false);
@@ -29,17 +36,64 @@ const unhighlightElements = () => {
     .classed('hidden', false);
 };
 
-// Highlight a single node
+
+/**********************************************/
+/* Highlight a single node                    */
+/**********************************************/
+
 const highlightNode = (id) => {
   d3.select(`#node-${id}`).classed('faded', false);
 };
 
-// Un-highlight a single node
+
+/**********************************************/
+/* Un-Highlight a single node                 */
+/**********************************************/
+
 const unHighlightNode = (id) => {
   d3.select(`#node-${id}`).classed('faded', true);
 };
 
-// Add background circle behind selected element
+/**********************************************/
+/* Get position and size of a node            */
+/**********************************************/
+
+const getNodeParameters = (selectedElement, refCircle, elementClasses, elementRadius) => {
+  let nodeParameters = {
+    'refRadius': 0,
+    'cx': 0,
+    'cy': 0
+  }
+
+  switch (true) {
+    case elementClasses.includes('node-National'):
+    case elementClasses.includes('node-Continental'):
+      nodeParameters.refRadius = elementRadius;
+      nodeParameters.cx = refCircle.attr('cx');
+      nodeParameters.cy = refCircle.attr('cy');
+      break;
+    case elementClasses.includes('node-Regional'):
+      nodeParameters.refRadius = 1.5 * refCircle.attr('r');
+      nodeParameters.cx = refCircle.attr('cx');
+      nodeParameters.cy = refCircle.attr('cy');
+      break;
+    case elementClasses.includes('node-Global'):
+    case elementClasses.includes('node-Bi-National'):
+      const bBox = selectedElement.node().getBBox();
+      nodeParameters.refRadius = bBox.width / 2;
+      nodeParameters.cx = bBox.x + nodeParameters.refRadius;
+      nodeParameters.cy = bBox.y + bBox.height / 2;
+      break;
+  }
+
+  return nodeParameters;
+};
+
+
+/*************************************************/
+/* Add background circle behind selected element */
+/*************************************************/
+
 const addBackgroundCircle = (id, elementRadius) => {
   // Remove previously added circle
   d3.select('.background-circle').remove();
@@ -49,38 +103,15 @@ const addBackgroundCircle = (id, elementRadius) => {
   const refCircle = d3.select(`#node-${id} circle`);
   const elementClasses = selectedElement.attr('class');
   
-  let refRadius = 0;
-  let cx = 0;
-  let cy = 0;
+  const nodeParameters = getNodeParameters(selectedElement, refCircle, elementClasses, elementRadius);
 
-  switch (true) {
-    case elementClasses.includes('node-National'):
-    case elementClasses.includes('node-Continental'):
-      refRadius = elementRadius;
-      cx = refCircle.attr('cx');
-      cy = refCircle.attr('cy');
-      break;
-    case elementClasses.includes('node-Regional'):
-      refRadius = 1.5 * refCircle.attr('r');
-      cx = refCircle.attr('cx');
-      cy = refCircle.attr('cy');
-      break;
-    case elementClasses.includes('node-Global'):
-    case elementClasses.includes('node-Bi-National'):
-      const bBox = selectedElement.node().getBBox();
-      refRadius = bBox.width / 2;
-      cx = bBox.x + refRadius;
-      cy = bBox.y + bBox.height / 2;
-      break;
-  }
+  let circleRadius = nodeParameters.refRadius >= 30 ? (nodeParameters.refRadius * 1.25) : (nodeParameters.refRadius + 5);
 
-  let circleRadius = refRadius >= 30 ? (refRadius * 1.25) : (refRadius + 5);
-
-  selectedElement.append('circle')
+  selectedElement.insert('circle', ':first-child')
     .attr('class', 'background-circle')
     .attr('r', 0)
-    .attr('cx', cx)
-    .attr('cy', cy)
+    .attr('cx', nodeParameters.cx)
+    .attr('cy', nodeParameters.cy)
     .attr('fill', grey)
     .attr('fill-opacity', 0.25)
     .attr('stroke', 'none')
@@ -90,7 +121,11 @@ const addBackgroundCircle = (id, elementRadius) => {
     .attr('r', circleRadius);
 };
 
-// Get related links and nodes
+
+/*************************************************/
+/* Get related links and nodes                   */
+/*************************************************/
+
 const getRelatedElements = (id) => {
   let relatedElements = {
     "relatedNodes": [],
@@ -108,7 +143,12 @@ const getRelatedElements = (id) => {
   return relatedElements;
 };
 
-// Unhighlight all elements when user clicks elsewhere on the page
+
+/*************************************************/
+/* Unhighlight all elements                      */
+/* when user clicks elsewhere on the page        */
+/*************************************************/
+
 document.addEventListener('click', (e) => {
   const closestGroup = e.target.closest('g');
   if (isActiveElement && (closestGroup === null || !closestGroup.classList.contains('node'))) {
@@ -117,3 +157,47 @@ document.addEventListener('click', (e) => {
     unhighlightElements();
   }
 });
+
+
+/**********************************************/
+/* Populate and show/hide info box            */
+/**********************************************/
+
+const showInfo = (d) => {
+  // Find location of the mouse on the page
+  const xpos = d3.event.pageX - 15;
+  const ypos = d3.event.pageY - 15;
+
+  // Populate info
+  const nodeColor = getColor(d.type).hex;
+  d3.select('#info .type').text(getGroup(d.type));
+  d3.select('#info h3').text(d.label);
+  d3.select('#info .name-background').style('background', nodeColor);
+  d3.select('#info .tags').text(d.tags.join(', '));
+
+  d3.select('#info .mission-statement').text(d.description);
+  d3.select('#info .mission-container').style('border-left-color', nodeColor);
+  const scale = d.location_of_impact === ''
+                  ? d.scale
+                  : `${d.scale} (${d.location_of_impact})`;
+  d3.select('#info .fact-scale').text(scale);
+  d3.select('#info .fact-impact').text(d3.format(",")(d.estimated_people_impacted));
+  d3.select('#info .fact-url').attr('href', d.url);
+  d3.select('#info .fact-url').text(d.url);
+  d3.select('#info .fact-url').style('color::hover', nodeColor);
+
+  // Make the info box appear at the right location
+  d3.select('#info')
+    .style('left', `${xpos}px`)
+    .style('top', `${ypos}px`)
+    .transition().duration(150)
+    .style('opacity', 1);
+};
+
+const hideInfo = () => {
+  d3.select('#info')
+    .style('opacity', 0)
+    .transition().duration(100)
+    .style('left', '-9000rem')
+    .style('top', '-9000rem');
+}

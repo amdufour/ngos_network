@@ -17,6 +17,7 @@ const colors = [
   { id: 'teal', hex: '#43AA8B' },
   { id: 'blue', hex: '#577590' }
 ];
+const white = '#FBFDFE';
 const grey = '#727A87';
 
 // Data related variables
@@ -58,7 +59,10 @@ const createVisualization = () => {
     return peopleImpacted == 'nan' ? 5 : nodeRadiusScale(peopleImpacted);
   };
 
-  // Simulation function
+  /*************************************/
+  /* Simulation function               */
+  /*************************************/
+
   // Used to position the nodes on the screen
   const simulation = d3.forceSimulation(nodes)
     // Pushes linkes nodes together or apart
@@ -83,14 +87,20 @@ const createVisualization = () => {
     })
       .strength(0.1));
 
-  // Append svg
+  /*************************************/
+  /* Append svg                        */
+  /*************************************/
+  
   const viz = d3.select('#visualization')
     .append('svg')
     .attr('viewbox', [0, 0, width, height])
     .attr('width', width)
     .attr('height', height);
 
-  // Append defs for gradients and blur
+  /*************************************/
+  /* Append defs                       */
+  /*************************************/
+  
   const defs = viz.append('defs');
 
   // Append gradients
@@ -112,7 +122,7 @@ const createVisualization = () => {
     });
   });
 
-  // Create blur filter
+  // Append blur filter
   let filters = defs.append('filter')
     .attr('id', 'glow');
   // Apply blur
@@ -126,7 +136,11 @@ const createVisualization = () => {
   feMerge.append('feMergeNode')
     .attr('in', 'SourceGraphic');
 
-  // Append links
+  
+  /*************************************/
+  /* Append network links              */
+  /*************************************/
+  
   const link = viz.append('g')
     .attr('class', 'links-group')
     .attr('fill', 'none')
@@ -150,7 +164,10 @@ const createVisualization = () => {
         });
 
 
-  // Append node groups
+  /*************************************/
+  /* Append network nodes              */
+  /*************************************/
+  
   const nodeGroup = viz.append('g')
     .attr('class', 'nodes-group')
     .selectAll('g.node')
@@ -161,9 +178,11 @@ const createVisualization = () => {
         .on('mouseenter', d => {
           d3.event.stopPropagation();
           isActiveElement ? highlightNode(d.id) : highlightElements(d.id, false);
+          showInfo(d);
         })
         .on('mouseleave', d => {
           isActiveElement ? unHighlightNode(d.id) : unhighlightElements();
+          hideInfo();
         })
         .on('click', d => {
           isActiveElement = true;
@@ -190,14 +209,14 @@ const createVisualization = () => {
   const nodesRegional = d3.selectAll('.node-Regional')
     .append('circle')
       .attr('r', d => getRadius(d.estimated_people_impacted))
-      .attr('fill', d => '#fff')
+      .attr('fill', white)
       .attr('stroke', d => getColor(d.type).hex)
       .attr('stroke-width', d => getRadius(d.estimated_people_impacted))
       .attr('stroke-opacity', 0.8);
 
   // Append nodes with "Continental" scale
   const nodesContinentalGroup = d3.selectAll('.node-Continental')
-    .attr('fill', '#fff')
+    .attr('fill', white)
     .attr('stroke', d => getColor(d.type).hex);
   const nodesContientalOuter = nodesContinentalGroup.append('circle')
     .attr('class', 'outer-circle')
@@ -246,7 +265,10 @@ const createVisualization = () => {
   }
 
 
-  // Call the simulation
+  /*************************************/
+  /* Call the simulation               */
+  /*************************************/
+  
   simulation.on('tick', () => {
     link
       .attr('d', d => {
