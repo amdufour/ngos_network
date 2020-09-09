@@ -25,6 +25,17 @@ const highlightElements = (id, selected) => {
       const linkId = `${d.source.id}-to-${d.target.id}`;
       return relatedElements.relatedLinks.includes(linkId) ? false : true;
     });
+
+  if (relatedElements.tags.length > 0) {
+    d3.select('#action .action-field').text(relatedElements.tags.join(', '));
+    if (relatedElements.tags.length > 1) {
+      d3.select('#action .conjugate').text('fields');
+    } else if (relatedElements.tags.length == 1) {
+      d3.select('#action .conjugate').text('field');
+    }
+
+    d3.select('#action').classed('visible', true);
+  }
 };
 
 
@@ -67,7 +78,7 @@ const getNodeParameters = (selectedElement, refCircle, elementClasses, elementRa
     'refRadius': 0,
     'cx': 0,
     'cy': 0
-  }
+  };
 
   switch (true) {
     case elementClasses.includes('node-National'):
@@ -132,16 +143,28 @@ const addBackgroundCircle = (id, elementRadius) => {
 
 const getRelatedElements = (id) => {
   let relatedElements = {
+    "tags": [],
     "relatedNodes": [],
     "relatedLinks": []
   };
+
+  const addTags = (tags) => {
+    for (const tag of tags) {
+      if (!relatedElements.tags.includes(tag)) {
+        relatedElements.tags.push(tag);
+      }
+    }
+  };
+
   links.forEach(link => {
     if (link.source.id === id) {
       relatedElements.relatedNodes.push(link.target.id);
       relatedElements.relatedLinks.push(`${link.source.id}-to-${link.target.id}`);
+      addTags(link.tags);
     } else if (link.target.id === id) {
       relatedElements.relatedNodes.push(link.source.id);
       relatedElements.relatedLinks.push(`${link.source.id}-to-${link.target.id}`);
+      addTags(link.tags);
     }
   });
   return relatedElements;
@@ -160,6 +183,7 @@ document.addEventListener('click', (e) => {
     d3.select('.background-circle').remove();
     highlightedNodes = [];
     unhighlightElements();
+    d3.select('#action').classed('visible', false);
   }
 });
 
@@ -200,6 +224,5 @@ const showInfo = (d) => {
 };
 
 const hideInfo = () => {
-  d3.select('#info')
-  .classed('visible', false);
-}
+  d3.select('#info').classed('visible', false);
+};

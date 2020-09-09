@@ -1,0 +1,20 @@
+#action {
+  min-height: 45px;
+  font-size: 1.6rem;
+  text-align: center;
+  opacity: 0;
+  transition-property: opacity;
+  @include easeSineOut;
+  &.visible {
+    opacity: 1;
+    @include easeSineIn;
+  }
+
+  .action-field {
+    display: block;
+    margin-top: 3px;
+    font-family: $fontSecondary;
+    font-size: 1.8rem;
+    font-weight: 500;
+  }
+}
