@@ -1,0 +1,35 @@
+.legend-section {
+  ul {
+    margin-top: 0;
+    margin-bottom: 0;
+    padding-left: 0;
+    list-style: none;
+  }
+  .legend {
+    margin-bottom: 15px;
+  }
+
+  // Organizations main color
+  .legend-color {
+    li {
+      position: relative;
+      margin: 10px 0;
+      padding-left: 27px;
+      &:before {
+        content: '';
+        position: absolute;
+        top: -3px;
+        left: 0;
+        width: 20px;
+        height: 20px;
+        border-radius: 50%;
+      }
+      &.legend-color-red::before { background: $red; }
+      &.legend-color-orange::before { background: $orange; }
+      &.legend-color-yellow::before { background: $yellow; }
+      &.legend-color-pistachio::before { background: $pistachio; }
+      &.legend-color-teal::before { background: $teal; }
+      &.legend-color-blue::before { background: $blue; }
+    }
+  }
+}
