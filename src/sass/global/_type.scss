@@ -26,10 +26,12 @@ a {
   display: inline-block;
   color: $text;
   text-decoration: none;
-  transition-property: color;
+  border-bottom: 1px solid $text;
+  transition-property: all;
   @include easeSineOut;
   &:hover, &:focus {
     color: $blue;
+    border-bottom-color: $blue;
     @include easeSineIn;
   }
 }
