@@ -1,9 +1,1 @@
-<svg xmlns="http://www.w3.org/2000/svg" width="43" height="42" viewBox="0 0 43 42">
-  <g fill="#727A87" fill-opacity=".6" fill-rule="evenodd" stroke="#727A87" transform="translate(-1.873 -2)">
-    <circle cx="18.407" cy="15.273" r="12"/>
-    <circle cx="28.82" cy="15.165" r="11.848" transform="rotate(72 28.82 15.165)"/>
-    <circle cx="31.855" cy="25.42" r="11.848" transform="rotate(144 31.855 25.42)"/>
-    <circle cx="23.594" cy="31.189" r="11.848" transform="rotate(-144 23.594 31.189)"/>
-    <circle cx="15.165" cy="25.176" r="11.848" transform="rotate(-72 15.165 25.176)"/>
-  </g>
-</svg>
+<svg xmlns="http://www.w3.org/2000/svg" width="43" height="42"><g fill="#727A87" fill-opacity=".6" fill-rule="evenodd" stroke="#727A87" transform="translate(-1.873 -2)"><circle cx="18.407" cy="15.273" r="12"/><circle cx="28.82" cy="15.165" r="11.848" transform="rotate(72 28.82 15.165)"/><circle cx="31.855" cy="25.42" r="11.848" transform="rotate(144 31.855 25.42)"/><circle cx="23.594" cy="31.189" r="11.848" transform="rotate(-144 23.594 31.189)"/><circle cx="15.165" cy="25.176" r="11.848" transform="rotate(-72 15.165 25.176)"/></g></svg>
