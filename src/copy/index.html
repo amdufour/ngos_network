@@ -34,7 +34,17 @@
 					</div>
 					<div class="col-12 col-md-4">
 						<h3>Scale at which an organization operates</h3>
-						<div class="legend legend-main legend-scale"></div>
+						<ul class="row legend legend-main legend-scale">
+							<div class="col-12 col-md-6">
+								<li class="legend-national">National</li>
+								<li class="legend-regional">Regional or Local</li>
+								<li class="legend-bi-nations">Between 2 nations</li>
+							</div>
+							<div class="col-12 col-md-6">
+								<li class="legend-global">Global</li>
+								<li class="legend-continental">Continental</li>
+							</div>
+						</ul>
 					</div>
 					<div class="col-12 col-md-4">
 						<h3>Estimated people reached by an organization</h3>
@@ -45,8 +55,14 @@
 					<div class="col-12">
 						<h3>How the organizations relate to each other</h3>
 					</div>
-					<div class="col-12 col-md-6"></div>
-					<div class="col-12 col-md-6"></div>
+					<div class="col-12 col-md-4">
+						<p>Organizations are linked to each other by common fields of action. For example, organizations focusing on refugees are all linked together.</p>
+						<p>The more common fields of action 2 organizations share, the thicker the link between them.</p>
+					</div>
+					<div class="col-12 col-md-4">
+						<p class="icon mouseover">By placing your mouse over an organization, these links and related organizations will be highlighted.</p>
+						<p class="icon mouseclick">Clicking on an organization allows to freeze this highlighted state and explore related organizations.</p>
+					</div>
 				</div>
 			</section>
 			<section class="visualization-section">
@@ -108,5 +124,6 @@
 	<script src="js/main.js"></script>
 	<script src="js/helper.js"></script>
 	<script src="js/interactions.js"></script>
+	<script src="js/legend.js"></script>
 </body>
 </html>

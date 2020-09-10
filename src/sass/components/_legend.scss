@@ -4,6 +4,13 @@
     margin-bottom: 0;
     padding-left: 0;
     list-style: none;
+    li {
+      padding-top: 10px;
+      padding-bottom: 10px;
+    }
+  }
+  p {
+    margin-top: 0;
   }
   .legend {
     margin-bottom: 15px;
@@ -13,12 +20,11 @@
   .legend-color {
     li {
       position: relative;
-      margin: 10px 0;
       padding-left: 27px;
       &:before {
         content: '';
         position: absolute;
-        top: -3px;
+        top: 7px;
         left: 0;
         width: 20px;
         height: 20px;
@@ -30,6 +36,38 @@
       &.legend-color-pistachio::before { background: $pistachio; }
       &.legend-color-teal::before { background: $teal; }
       &.legend-color-blue::before { background: $blue; }
+    }
+  }
+
+  // Organizations scale
+  .legend-scale {
+    li {
+      margin-left: -1px;
+      padding-left: 33px;
+      background-repeat: no-repeat;
+      background-size: 25px auto;
+      background-position: 1px 5px;
+      &.legend-national { background-image: url(../svg/node_national.svg); }
+      &.legend-regional { background-image: url(../svg/node_regional.svg); }
+      &.legend-global { background-image: url(../svg/node_global.svg); }
+      &.legend-continental { background-image: url(../svg/node_continental.svg); }
+      &.legend-bi-nations { 
+        background-image: url(../svg/node_bi-national.svg);
+        background-size: 28px auto;
+        background-position: 0 7px;
+      }
+    }
+  }
+
+  // Organizations radius
+  .legend-radius {
+    circle {
+      fill: $grey;
+      fill-opacity: 0.4;
+    }
+    line {
+      stroke: $grey;
+      stroke-dasharray: 6 4;
     }
   }
 }

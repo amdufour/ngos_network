@@ -312,4 +312,10 @@ const createVisualization = () => {
     nodesGlobalGroup
       .attr('transform', d => `translate(${d.x = Math.max(radiusMax, Math.min(width - radiusMax, d.x))},${d.y = Math.max(radiusMax, Math.min(height - radiusMax, d.y))})`);
   });
+
+
+  /*************************************/
+  /* Append legend                     */
+  /*************************************/
+  addRadiusLegend(getRadius(1000000), getRadius(500000), getRadius(5000));
 };
