@@ -23,8 +23,6 @@ const grey = '#727A87';
 // Data related variables
 const groups = ['communications', 'civics', 'community', 'economy', 'technology', 'education'];
 const radiusMin = 5;  // Minimum radius of a node (To account for missing data)
-// const radiusMax = 60; // Maximum radius of a node
-// const areaMax = Math.PI * Math.pow(radiusMax, 2); // Maximum area of  node
 const areaMin = Math.PI * Math.pow(radiusMin, 2); // Maximum area of  node
 const areaMax = 8000; // Maximum area of  node
 const radiusMax = Math.sqrt(areaMax / Math.PI); // Maximum radius of a node
