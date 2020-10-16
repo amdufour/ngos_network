@@ -22,8 +22,12 @@ const grey = '#727A87';
 
 // Data related variables
 const groups = ['communications', 'civics', 'community', 'economy', 'technology', 'education'];
-const radiusMin = 8;  // Minimum radius of a node
-const radiusMax = 60; // Maximum radius of a node
+const radiusMin = 5;  // Minimum radius of a node (To account for missing data)
+// const radiusMax = 60; // Maximum radius of a node
+// const areaMax = Math.PI * Math.pow(radiusMax, 2); // Maximum area of  node
+const areaMin = Math.PI * Math.pow(radiusMin, 2); // Maximum area of  node
+const areaMax = 8000; // Maximum area of  node
+const radiusMax = Math.sqrt(areaMax / Math.PI); // Maximum radius of a node
 
 // State variable
 let isActiveElement = false;
@@ -40,6 +44,7 @@ let links = [];
 d3.json('../data/network.min.json').then(data => {
   nodes = data.nodes;
   links = data.links;
+  console.log(nodes);
   createVisualization();
 });
 
@@ -51,13 +56,15 @@ d3.json('../data/network.min.json').then(data => {
 const createVisualization = () => {
 
   // Scales
-  const nodeRadiusScale = d3.scaleLinear()
-    .domain(d3.extent(nodes, d => d.estimated_people_impacted))
-    .range([radiusMin, radiusMax]);
+  const nodeAreaScale = d3.scaleLinear()
+    .domain([0, d3.max(nodes, d => d.estimated_people_impacted)])
+    .range([areaMin, areaMax]);
 
-  // Get radius of a node
+  // Get area of a node
   const getRadius = (peopleImpacted) => {
-    return peopleImpacted == 'nan' ? 5 : nodeRadiusScale(peopleImpacted);
+    return peopleImpacted === 'nan' 
+      ? radiusMin 
+      : Math.sqrt(nodeAreaScale(peopleImpacted) / Math.PI);
   };
 
   /*************************************/
@@ -83,7 +90,7 @@ const createVisualization = () => {
       })
       .strength(1))
     .force('collide', d3.forceCollide(d => {
-      const radius = d.estimated_people_impacted == 'nan' ? 5 : nodeRadiusScale(d.estimated_people_impacted);
+      const radius = getRadius(d.estimated_people_impacted);
       return radius + 15;
     })
       .strength(0.1));
@@ -190,7 +197,7 @@ const createVisualization = () => {
         .on('click', d => {
           isActiveElement = true;
           highlightElements(d.id, true);
-          addBackgroundCircle(d.id, getRadius(d.estimated_people_impacted));
+          addBackgroundCircle(d.id, getArea(d.estimated_people_impacted));
         });
 
   // Append nodes with "National" scale
@@ -202,14 +209,11 @@ const createVisualization = () => {
     .attr('stroke', d => getColor(d.type).hex)
     .attr('stroke-width', 2);
   const nodesNationalInner = nodesNationalGroup.append('circle')
-    .attr('r', d => {
-      const radius = getRadius(d.estimated_people_impacted);
-      return 0.75 * radius;
-    })
+    .attr('r', d => 0.75 * getRadius(d.estimated_people_impacted))
     .attr('stroke', 'none');
 
   // Append nodes with "Regional" scale
-  const nodesRegional = d3.selectAll('.node-Regional')
+  const nodesRegional = d3.selectAll('.node-Regional');
   const nodesRegionalOuter =  nodesRegional.append('circle')
     .attr('r', d => getRadius(d.estimated_people_impacted))
     .attr('fill', d => getColor(d.type).hex)
@@ -317,5 +321,5 @@ const createVisualization = () => {
   /*************************************/
   /* Append legend                     */
   /*************************************/
-  addRadiusLegend(getRadius(1000000), getRadius(500000), getRadius(5000));
+  addRadiusLegend(getRadius(1000000), getRadius(100000), getRadius(10000));
 };

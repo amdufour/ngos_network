@@ -51,9 +51,9 @@ const addRadiusLegend = (radiusL, radiusMd, radiusSm) => {
   legendTextsGroup.append('text')
     .attr('x', radiusL + lineLength + 10)
     .attr('y', marginTop + 2 * (radiusL - radiusMd) + 4)
-    .text('500,000');
+    .text('100,000');
   legendTextsGroup.append('text')
     .attr('x', radiusL + lineLength + 10)
     .attr('y', marginTop + 2 * (radiusL - radiusSm) + 4)
-    .text('5,000');
+    .text('10,000');
 };
