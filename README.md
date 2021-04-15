@@ -1,4 +1,4 @@
-# Foodprint
+# Organizations joining forces against polarization
 # by Anne-Marie Dufour - annemariedufour.com
 
 A network visualisation of non profit organizations working on anti-polarization.
